@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            height: 200px;
+            border: 2px solid black;
+            margin-bottom: 20px;
+        }
+        .yellow{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="box1"></div>
+
+    <div id="box2"></div>
+
+    <div id="box3"></div>
+
+<script>
+    let box1Dom = document.querySelector("#box1");
+    box1Dom.innerHTML = "딸기";
+
+    let box2Dom = document.querySelector("#box2");
+    download();
+    
+    let box3Dom = document.querySelector("#box3");
+    box3Dom.innerHTML = "바나나";
+
+    async function download(){
+        let data = await fetch("http://192.168.1.5:9020/download");
+        let parseData = await data.text();
+        box3Dom.innerHTML = parseData;
+        box2Dom.remove();
+        box1Dom.className = "yellow";
+
+    }
+</script>
+</body>
+</html>
