@@ -1,22 +1,52 @@
 package com.cos.pic;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cos.pic.utils.DataDownload;
 import com.cos.pic.utils.MyPath;
+import com.google.gson.Gson;
 
 @Controller
 public class TestController {
 
+	@CrossOrigin
+	@GetMapping("/download")
+	public @ResponseBody String download() {
+		try {
+			Thread.sleep(2000);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		return "사과";
+	}
+	
+	@GetMapping("/airport")
+	public @ResponseBody List<Item> airport() {
+		try {
+			String result = DataDownload.getAirport();
+			Gson gson = new Gson();
+			AirportDto airportDto = gson.fromJson(result, AirportDto.class);
+			System.out.println(airportDto.getResponse().getBody().getItems().getItem().get(0).getAirlineNm());
+			return airportDto.getResponse().getBody().getItems().getItem();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}     
+	
 	@GetMapping("/send")
 	public String send() {
 		return "send";
